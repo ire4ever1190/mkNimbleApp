@@ -24,6 +24,7 @@
       {
         packages.default = mkNimbleApp {
           src = ./.;
+          # Update this hash after first run
           nimbleHash = "";
         };
       }

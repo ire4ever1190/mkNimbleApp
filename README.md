@@ -5,6 +5,12 @@ files and produce a derivation containing all the binaries
 
 ## Usage
 
+### Template 
+
+You can use the basic template to get you started via `nix flake init -t github:ire4ever1190/mkNimbleApp`
+
+### Manual
+
 Add this into your flake inputs
 ```nix
 nimbleUtils = {
