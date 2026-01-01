@@ -68,20 +68,21 @@ in
         hash = userArgs.nimbleHash;
       };
     in
+    let
+      defaultNativeBuildInputs = with pkgs; [
+        nimble
+        nim
+        deps
+      ];
+      mergedNativeBuildInputs = defaultNativeBuildInputs ++ (userArgs.nativeBuildInputs or [ ]);
+       userArgsWithoutNativeBuildInputs = builtins.removeAttrs userArgs [ "nativeBuildInputs" ];
+    in
     pkgs.stdenv.mkDerivation (
       {
         pname = (metadata.name);
         version = metadata.version;
 
-        nativeBuildInputs = with pkgs; [
-          nimble
-          nim
-          deps
-        ];
-
-        checkInputs = [
-          pkgs.neovim # Tests use neovim
-        ];
+        nativeBuildInputs = mergedNativeBuildInputs;
 
         buildPhase = ''
           # Nimble wants to write its data into NIMBLE_DIR which by default is in ~/.nimble
@@ -110,12 +111,12 @@ in
           mkdir -p $out/bin
           # Find all the binary files listed
           for binary in "${builtins.concatStringsSep " " metadata.bin}"; do
-              mv $binary $out/bin/$binary
+              mv ${metadata.binDir}/$binary $out/bin/$binary
           done
 
           runHook postInstall
         '';
       }
-      // userArgs
+      // userArgsWithoutNativeBuildInputs
     );
 }

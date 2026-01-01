@@ -21,6 +21,7 @@
       in
       {
         packages.default = import ./default.nix { pkgs = pkgs; };
+        formatter = pkgs.nixfmt-rfc-style;
       }
     )
     // {
