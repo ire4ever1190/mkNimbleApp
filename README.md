@@ -5,6 +5,8 @@ files and produce a derivation containing all the binaries
 
 ## Usage
 
+Make sure your app has a `nimble.lock` file, this ensures you always get the same dependencies and ensures the nix hash is stable
+
 ### Template 
 
 You can use the basic template to get you started via `nix flake init -t github:ire4ever1190/mkNimbleApp`
