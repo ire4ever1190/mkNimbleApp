@@ -75,7 +75,7 @@ in
         deps
       ];
       mergedNativeBuildInputs = defaultNativeBuildInputs ++ (userArgs.nativeBuildInputs or [ ]);
-       userArgsWithoutNativeBuildInputs = builtins.removeAttrs userArgs [ "nativeBuildInputs" ];
+      userArgsWithoutNativeBuildInputs = builtins.removeAttrs userArgs [ "nativeBuildInputs" ];
     in
     pkgs.stdenv.mkDerivation (
       {
@@ -108,10 +108,10 @@ in
         installPhase = ''
           runHook preInstall
 
-          mkdir -p $out/bin
+          mkdir -p $out/bin/
           # Find all the binary files listed
-          for binary in "${builtins.concatStringsSep " " metadata.bin}"; do
-              mv ${metadata.binDir}/$binary $out/bin/$binary
+          for binary in ${builtins.concatStringsSep " " metadata.bin}; do
+              mv $binary $out/bin/$binary
           done
 
           runHook postInstall
