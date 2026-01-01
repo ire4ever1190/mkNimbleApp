@@ -20,7 +20,7 @@
         pkgs = nixpkgs.legacyPackages.${system};
       in
       {
-        packages.default = import ./nimble.nix { pkgs = pkgs; };
+        packages.default = import ./default.nix { pkgs = pkgs; };
       }
     );
 }

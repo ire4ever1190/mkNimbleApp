@@ -15,7 +15,7 @@ nimbleUtils = {
 and then call it inside your flake
 ```nix
 let
-  mkNimbleApp == nimbleUtils.packages.${system}.default;
+  mkNimbleApp = nimbleUtils.packages.${system}.default;
 in
   mkNimbleApp {
     src = ./.;
