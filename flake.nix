@@ -29,7 +29,7 @@
           path = ./templates/basic;
           description = "Basic template for wrapping a nimble app";
         };
-        defaultTempate = self.templates.basic;
+        default = self.templates.basic;
       };
     };
 }
