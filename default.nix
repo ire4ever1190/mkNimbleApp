@@ -1,26 +1,31 @@
-{ pkgs, lib }:
+{ pkgs }:
 let
   # Function that creates a derivation containing the dependencies for a nimble project.
   # Can be copied into a folder called `nimbledeps` inside a project to give it isolated dependencies
   getNimbleDeps =
-    { src, hash, ... }@attrs:
+    {
+      src,
+      hash,
+      cacert,
+      ...
+    }:
     pkgs.stdenv.mkDerivation {
       name = "deps";
       src = src;
       nativeBuildInputs = with pkgs; [
         nimble
-        cacert
         # Needed for downloading different packages
         git
         mercurial
 
         jq
+        cacert
       ];
       buildPhase = ''
         mkdir -p nimbledeps
+
         # Run setup to pull all the dependencies
         nimble setup
-
         # Sometimes the files listed in each nimblemeta.json file is in a different order.
         # We'll sort that so the hash is consistent
         for file in $(find -name nimblemeta.json); do
@@ -36,9 +41,6 @@ let
       outputHashAlgo = "sha256";
       outputHashMode = "recursive";
       outputHash = hash;
-    }
-    // lib.optionalAttrs (attrs ? SSL_CERT_FILE) {
-      SSL_CERT_FILE = attrs.SSL_CERT_FILE;
     };
 
   # Returns the output of `nimble dump` in a structured format
@@ -66,14 +68,11 @@ in
     userArgs:
     let
       metadata = getNimbleMetadata { src = userArgs.src; };
-      deps =
-        getNimbleDeps {
-          src = userArgs.src;
-          hash = userArgs.nimbleHash;
-        }
-        // lib.optionalAttrs (userArgs ? SSL_CERT_FILE) {
-          SSL_CERT_FILE = userArgs.SSL_CERT_FILE;
-        };
+      deps = getNimbleDeps {
+        src = userArgs.src;
+        hash = userArgs.nimbleHash;
+        cacert = userArgs.cacert or pkgs.cacert;
+      };
     in
     let
       defaultNativeBuildInputs = with pkgs; [
