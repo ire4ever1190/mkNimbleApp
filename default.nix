@@ -1,9 +1,9 @@
-{ pkgs }:
+{ pkgs, lib }:
 let
   # Function that creates a derivation containing the dependencies for a nimble project.
   # Can be copied into a folder called `nimbledeps` inside a project to give it isolated dependencies
   getNimbleDeps =
-    { src, hash }:
+    { src, hash, ... }@attrs:
     pkgs.stdenv.mkDerivation {
       name = "deps";
       src = src;
@@ -36,6 +36,9 @@ let
       outputHashAlgo = "sha256";
       outputHashMode = "recursive";
       outputHash = hash;
+    }
+    // lib.optionalAttrs (attrs ? SSL_CERT_FILE) {
+      SSL_CERT_FILE = attrs.SSL_CERT_FILE;
     };
 
   # Returns the output of `nimble dump` in a structured format
@@ -63,10 +66,14 @@ in
     userArgs:
     let
       metadata = getNimbleMetadata { src = userArgs.src; };
-      deps = getNimbleDeps {
-        src = userArgs.src;
-        hash = userArgs.nimbleHash;
-      };
+      deps =
+        getNimbleDeps {
+          src = userArgs.src;
+          hash = userArgs.nimbleHash;
+        }
+        // lib.optionalAttrs (userArgs ? SSL_CERT_FILE) {
+          SSL_CERT_FILE = userArgs.SSL_CERT_FILE;
+        };
     in
     let
       defaultNativeBuildInputs = with pkgs; [
