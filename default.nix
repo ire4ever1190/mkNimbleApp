@@ -23,7 +23,8 @@ let
       ];
       buildPhase = ''
         mkdir -p nimbledeps
-
+        echo $SSL_CERT_FILE
+        echo $NIX_SSL_CERT_FILE
         # Run setup to pull all the dependencies
         nimble setup
         # Sometimes the files listed in each nimblemeta.json file is in a different order.
