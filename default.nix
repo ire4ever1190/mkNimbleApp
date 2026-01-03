@@ -3,24 +3,28 @@ let
   # Function that creates a derivation containing the dependencies for a nimble project.
   # Can be copied into a folder called `nimbledeps` inside a project to give it isolated dependencies
   getNimbleDeps =
-    { src, hash }:
+    {
+      src,
+      hash,
+      ...
+    }:
     pkgs.stdenv.mkDerivation {
       name = "deps";
       src = src;
       nativeBuildInputs = with pkgs; [
         nimble
-        cacert
         # Needed for downloading different packages
         git
         mercurial
 
         jq
+        cacert
       ];
+      impureEnvVars = [ "NIX_SSL_CERT_FILE" ];
       buildPhase = ''
         mkdir -p nimbledeps
         # Run setup to pull all the dependencies
         nimble setup
-
         # Sometimes the files listed in each nimblemeta.json file is in a different order.
         # We'll sort that so the hash is consistent
         for file in $(find -name nimblemeta.json); do
@@ -81,10 +85,11 @@ in
       {
         pname = (metadata.name);
         version = metadata.version;
-
         nativeBuildInputs = mergedNativeBuildInputs;
 
         buildPhase = ''
+          runHook preBuild
+
           # Nimble wants to write its data into NIMBLE_DIR which by default is in ~/.nimble
           # We can't override NIMBLE_DIR, because then it wont use local dependencies
           export HOME=$(mktemp -d)
@@ -94,6 +99,8 @@ in
           chmod +w nimbledeps/nimbledata2.json
 
           nimble --useSystemNim --nim:${pkgs.nim}/bin/nim --offline -d:release build
+
+          runHook postBuild
         '';
 
         doCheck = true;
