@@ -85,7 +85,6 @@ in
       {
         pname = (metadata.name);
         version = metadata.version;
-        impureEnvVars = [ "NIX_SSL_CERT_FILE" ];
         nativeBuildInputs = mergedNativeBuildInputs;
 
         buildPhase = ''
