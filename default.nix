@@ -21,6 +21,7 @@ let
         jq
         cacert
       ];
+      impureEnvVars = [ "NIX_SSL_CERT_FILE" ];
       buildPhase = ''
         mkdir -p nimbledeps
         echo $SSL_CERT_FILE
@@ -88,7 +89,7 @@ in
       {
         pname = (metadata.name);
         version = metadata.version;
-
+        impureEnvVars = [ "NIX_SSL_CERT_FILE" ];
         nativeBuildInputs = mergedNativeBuildInputs;
 
         buildPhase = ''
