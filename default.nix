@@ -6,7 +6,6 @@ let
     {
       src,
       hash,
-      cacert,
       ...
     }:
     pkgs.stdenv.mkDerivation {
@@ -24,8 +23,6 @@ let
       impureEnvVars = [ "NIX_SSL_CERT_FILE" ];
       buildPhase = ''
         mkdir -p nimbledeps
-        echo $SSL_CERT_FILE
-        echo $NIX_SSL_CERT_FILE
         # Run setup to pull all the dependencies
         nimble setup
         # Sometimes the files listed in each nimblemeta.json file is in a different order.
@@ -73,7 +70,6 @@ in
       deps = getNimbleDeps {
         src = userArgs.src;
         hash = userArgs.nimbleHash;
-        cacert = userArgs.cacert or pkgs.cacert;
       };
     in
     let
