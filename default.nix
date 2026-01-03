@@ -89,6 +89,8 @@ in
         nativeBuildInputs = mergedNativeBuildInputs;
 
         buildPhase = ''
+          runHook preBuild
+
           # Nimble wants to write its data into NIMBLE_DIR which by default is in ~/.nimble
           # We can't override NIMBLE_DIR, because then it wont use local dependencies
           export HOME=$(mktemp -d)
@@ -98,6 +100,8 @@ in
           chmod +w nimbledeps/nimbledata2.json
 
           nimble --useSystemNim --nim:${pkgs.nim}/bin/nim --offline -d:release build
+
+          runHook postBuild
         '';
 
         doCheck = true;
