@@ -23,8 +23,12 @@ let
       impureEnvVars = [ "NIX_SSL_CERT_FILE" ];
       buildPhase = ''
         mkdir -p nimbledeps
-        # Run setup to pull all the dependencies
-        nimble setup
+
+        # Run setup to pull all the dependencies. The solver is set to legacy to get around a bug
+        # where nimble tries to install Nim when there are no dependencies since it thinks there
+        # are no locked dependencies
+        nimble --useSystemNim --solver:legacy --debug setup
+
         # Sometimes the files listed in each nimblemeta.json file is in a different order.
         # We'll sort that so the hash is consistent
         for file in $(find -name nimblemeta.json); do
