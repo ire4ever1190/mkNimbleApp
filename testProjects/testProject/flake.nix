@@ -5,7 +5,7 @@
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nimbleUtils = {
-      url = "path:../";
+      url = "path:../../";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

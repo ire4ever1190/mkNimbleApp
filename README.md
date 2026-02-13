@@ -1,7 +1,9 @@
 # mkNimbleApp
 
 Nix flake utility for wrapping nimble binary projects. Can get most of the information needed from your nimble
-files and produce a derivation containing all the binaries
+files and produce a derivation containing all the binaries.
+
+This also supports creating a working dev environment for a project, run `nix develop` to have all the Nim dependencies configured
 
 ## Usage
 

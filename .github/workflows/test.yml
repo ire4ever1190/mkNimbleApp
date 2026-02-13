@@ -13,7 +13,14 @@ jobs:
       - uses: actions/checkout@v6
       - uses: DeterminateSystems/determinate-nix-action@v3
       - uses: DeterminateSystems/flake-checker-action@main
-      - run: nix build -L
-        working-directory: testProject
-      - run: result/bin/testProject
-        working-directory: testProject
+      - name: Build all test projects
+        run: |
+          for project in ./testProjects/*/; do
+            pushd $project
+            nix build -L
+            popd
+          done
+
+      - name: Ensure binary can be ran
+        run: result/bin/testProject
+        working-directory: testProjects/testProject/

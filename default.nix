@@ -90,19 +90,22 @@ in
         pname = (metadata.name);
         version = metadata.version;
         nativeBuildInputs = mergedNativeBuildInputs;
-
+        shellHook = ''
+          export NIMBLE_DIR=$(mktemp -d)
+          cp -r ${deps}/* $NIMBLE_DIR
+          chmod +w $NIMBLE_DIR/nimbledata2.json
+          # Make sure nimble.paths points to our deps
+          nimble setup
+        '';
         buildPhase = ''
           runHook preBuild
 
-          # Nimble wants to write its data into NIMBLE_DIR which by default is in ~/.nimble
-          # We can't override NIMBLE_DIR, because then it wont use local dependencies
-          export HOME=$(mktemp -d)
+          # Copy into a temp directory we can write to. Nimble needs to update the nimbledata2.json file
+          export NIMBLE_DIR=$(mktemp -d)
+          cp -r ${deps}/* $NIMBLE_DIR
+          chmod +w $NIMBLE_DIR/nimbledata2.json
 
-          # Copy into a temp directory we can write to
-          cp -r ${deps} nimbledeps
-          chmod +w nimbledeps/nimbledata2.json
-
-          nimble --useSystemNim --nim:${pkgs.nim}/bin/nim --offline -d:release build
+          nimble --useSystemNim --nim:${pkgs.nim}/bin/nim --nimcache:$(mktemp -d) --offline -d:release build
 
           runHook postBuild
         '';
