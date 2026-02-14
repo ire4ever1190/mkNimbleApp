@@ -98,7 +98,6 @@ in
 
           # Create empty files to stop nimble from trying to download them
           echo "[]" > $NIMBLE_DIR/packages_official.json
-          echo "[]" > $NIMBLE_DIR/packages_temp.json
           echo "[]" > $NIMBLE_DIR/official-nim-releases.json
 
           # Make sure nimble.paths points to our deps
