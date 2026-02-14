@@ -86,24 +86,28 @@ in
       userArgsWithoutNativeBuildInputs = builtins.removeAttrs userArgs [ "nativeBuildInputs" ];
     in
     pkgs.stdenv.mkDerivation (
-      {
+      rec {
         pname = (metadata.name);
         version = metadata.version;
         nativeBuildInputs = mergedNativeBuildInputs;
         shellHook = ''
+          # Copy into a temp directory we can write to. Nimble likes to update the nimbledata2.json file
           export NIMBLE_DIR=$(mktemp -d)
           cp -r ${deps}/* $NIMBLE_DIR
           chmod +w $NIMBLE_DIR/nimbledata2.json
+
+          # Create empty files to stop nimble from trying to download them
+          echo "[]" > $NIMBLE_DIR/packages_official.json
+          echo "[]" > $NIMBLE_DIR/packages_temp.json
+          echo "[]" > $NIMBLE_DIR/official-nim-releases.json
+
           # Make sure nimble.paths points to our deps
           nimble setup
         '';
         buildPhase = ''
           runHook preBuild
 
-          # Copy into a temp directory we can write to. Nimble needs to update the nimbledata2.json file
-          export NIMBLE_DIR=$(mktemp -d)
-          cp -r ${deps}/* $NIMBLE_DIR
-          chmod +w $NIMBLE_DIR/nimbledata2.json
+          ${shellHook}
 
           nimble --useSystemNim --nim:${pkgs.nim}/bin/nim --nimcache:$(mktemp -d) --offline -d:release build
 
