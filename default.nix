@@ -84,21 +84,27 @@ in
       ];
       mergedNativeBuildInputs = defaultNativeBuildInputs ++ (userArgs.nativeBuildInputs or [ ]);
       userArgsWithoutNativeBuildInputs = builtins.removeAttrs userArgs [ "nativeBuildInputs" ];
+
+      setupNimbleDir = ''
+        # Copy into a temp directory we can write to. Nimble likes to update the nimbledata2.json file
+        export NIMBLE_DIR=$(mktemp -d)
+        cp -r ${deps}/* $NIMBLE_DIR
+        chmod +w $NIMBLE_DIR/nimbledata2.json
+
+        # Create empty files to stop nimble from trying to download them
+        echo "[]" > $NIMBLE_DIR/packages_official.json
+        echo "[]" > $NIMBLE_DIR/official-nim-releases.json
+      '';
     in
     pkgs.stdenv.mkDerivation (
-      rec {
+      {
         pname = (metadata.name);
         version = metadata.version;
         nativeBuildInputs = mergedNativeBuildInputs;
         shellHook = ''
-          # Copy into a temp directory we can write to. Nimble likes to update the nimbledata2.json file
-          export NIMBLE_DIR=$(mktemp -d)
-          cp -r ${deps}/* $NIMBLE_DIR
-          chmod +w $NIMBLE_DIR/nimbledata2.json
-
-          # Create empty files to stop nimble from trying to download them
-          echo "[]" > $NIMBLE_DIR/packages_official.json
-          echo "[]" > $NIMBLE_DIR/official-nim-releases.json
+          ${setupNimbleDir}
+          # Allow us to delete the dev shell when finished
+          chmod +w -R $NIMBLE_DIR
 
           # Make sure nimble.paths points to our deps
           nimble setup
@@ -106,7 +112,7 @@ in
         buildPhase = ''
           runHook preBuild
 
-          ${shellHook}
+          ${setupNimbleDir}
 
           nimble --useSystemNim --nim:${pkgs.nim}/bin/nim --nimcache:$(mktemp -d) --offline -d:release build
 
