@@ -5,7 +5,7 @@
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nimbleUtils = {
-      url = "path:../";
+      url = "path:../../";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -24,7 +24,7 @@
       {
         packages.default = mkNimbleApp {
           src = ./.;
-          nimbleHash = "sha256-9meBcyeRgceZlZnipacFke+41ZKw7jh94JxqoaUGmXE=";
+          nimbleHash = "sha256-qaoVDxcYDZJG99TwK4IR8TxBAMJKEVzSmJNyFQt52iI=";
         };
       }
     );
