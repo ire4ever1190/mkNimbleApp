@@ -16,9 +16,11 @@ jobs:
       - name: Build all test projects
         run: |
           for project in ./testProjects/*/; do
+            echo "::group::Testing $project"
             pushd $project
             nix build -L
             popd
+            echo "::endgroup::"
           done
 
       - name: Ensure binary can be ran
