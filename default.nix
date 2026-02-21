@@ -102,12 +102,16 @@ in
         version = metadata.version;
         nativeBuildInputs = mergedNativeBuildInputs;
         shellHook = ''
-          ${setupNimbleDir}
-          # Allow us to delete the dev shell when finished
-          chmod +w -R $NIMBLE_DIR
+          # Create the local deps and copy everything into it
+          rm -rf $(pwd)/.nimbledeps
+          mkdir -p $(pwd)/.nimbledeps
+          cp -r ${deps}/* $(pwd)/.nimbledeps/
+
+          # Nimble likes to write to files in it
+          chmod -R +w .nimbledeps
 
           # Make sure nimble.paths points to our deps
-          nimble setup
+          nimble -l setup --offline
         '';
         buildPhase = ''
           runHook preBuild
