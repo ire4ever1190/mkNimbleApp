@@ -102,13 +102,17 @@ in
         version = metadata.version;
         nativeBuildInputs = mergedNativeBuildInputs;
         shellHook = ''
-          # Create the local deps and copy everything into it
+          # Create the local folder to make Nimble use local dependencies
           rm -rf $(pwd)/.nimbledeps
           mkdir -p $(pwd)/.nimbledeps
-          cp -r ${deps}/* $(pwd)/.nimbledeps/
 
           # Nimble likes to write to files in it
           chmod -R +w .nimbledeps
+
+          # Create symlink to dependencies in the store
+          ln -s ${deps}/pkgs2 .nimbledeps/pkgs2
+
+          # TODO: Add gcroot so paths don't get deleted
 
           # Make sure nimble.paths points to our deps
           nimble -l setup --offline
