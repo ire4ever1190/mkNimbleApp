@@ -10,6 +10,76 @@
       "checksums": {
         "sha1": "bc5242cbfd4feb63779f33d6d433d0a65b7dca75"
       }
+    },
+    "threading": {
+      "version": "0.2.1",
+      "vcsRevision": "c5a39a039f24d48ba9503dcb9a0aee68a0fbb36d",
+      "url": "https://github.com/nim-lang/threading",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "6904743cf079e9715f15a1e9e84c8187113ce1f4"
+      }
+    },
+    "jaysonrpc": {
+      "version": "0.1.0",
+      "vcsRevision": "0f1f4fc64f8824e413a7757128397de0a60b9c73",
+      "url": "https://github.com/ire4ever1190/jaysonrpc",
+      "downloadMethod": "git",
+      "dependencies": [
+        "threading"
+      ],
+      "checksums": {
+        "sha1": "45db237c56ca92423b167a645d8e056728381eae"
+      }
+    },
+    "results": {
+      "version": "0.5.1",
+      "vcsRevision": "df8113dda4c2d74d460a8fa98252b0b771bf1f27",
+      "url": "https://github.com/arnetheduck/nim-results",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "a9c011f74bc9ed5c91103917b9f382b12e82a9e7"
+      }
+    },
+    "unittest2": {
+      "version": "0.2.5",
+      "vcsRevision": "26f2ef3ae0ec72a2a75bfe557e02e88f6a31c189",
+      "url": "https://github.com/status-im/nim-unittest2",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "02bb3751ba9ddc3c17bfd89f2e41cb6bfb8fc0c9"
+      }
+    },
+    "minilru": {
+      "version": "0.1.0",
+      "vcsRevision": "c35304151ea39077330f225e3837450990d55e48",
+      "url": "https://github.com/status-im/nim-minilru",
+      "downloadMethod": "git",
+      "dependencies": [
+        "results",
+        "unittest2"
+      ],
+      "checksums": {
+        "sha1": "9f200310ac8455e07e6d3a9d1b4088677cb63603"
+      }
+    },
+    "nimsight": {
+      "version": "0.2.0",
+      "vcsRevision": "857a3da8227857caa35173b96e6e4f56620db1e2",
+      "url": "https://github.com/ire4ever1190/nimsight",
+      "downloadMethod": "git",
+      "dependencies": [
+        "anano",
+        "threading",
+        "minilru",
+        "jaysonrpc"
+      ],
+      "checksums": {
+        "sha1": "fede2df3068dbe2e5d997e4f8f92209cd53775ca"
+      }
     }
   },
   "tasks": {}
