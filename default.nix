@@ -113,8 +113,9 @@ in
           runHook preBuild
 
           ${setupNimbleDir}
+          export NIMBLE_ARGS="--useSystemNim --nim:${pkgs.nim}/bin/nim --nimcache:$(mktemp -d)"
 
-          nimble --useSystemNim --nim:${pkgs.nim}/bin/nim --nimcache:$(mktemp -d) --offline -d:release build
+          nimble $NIMBLE_ARGS --offline -d:release build
 
           runHook postBuild
         '';
@@ -123,7 +124,7 @@ in
         checkPhase = ''
           runHook preCheck
 
-          nimble --useSystemNim --nim:${pkgs.nim}/bin/nim --offline test
+          nimble $NIMBLE_ARGS --offline test
 
           runHook postCheck
         '';
