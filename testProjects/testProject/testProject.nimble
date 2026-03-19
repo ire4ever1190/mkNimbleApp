@@ -12,4 +12,4 @@ bin           = @["testProject"]
 
 requires "nim >= 2.2.6"
 requires "anano"
-requires "gh:ire4ever1190/nimsight"
+requires "gh:ire4ever1190/nort"

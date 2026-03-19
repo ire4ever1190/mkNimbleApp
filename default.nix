@@ -27,7 +27,7 @@ let
         # Run setup to pull all the dependencies. The solver is set to legacy to get around a bug
         # where nimble tries to install Nim when there are no dependencies since it thinks there
         # are no locked dependencies
-        nimble --useSystemNim --solver:legacy --debug setup
+        nimble --useSystemNim --solver:legacy setup
 
         # Sometimes the files listed in each nimblemeta.json file is in a different order.
         # We'll sort that so the hash is consistent
@@ -106,16 +106,13 @@ in
           rm -rf $(pwd)/nimbledeps
           mkdir -p $(pwd)/nimbledeps
 
-          # Nimble likes to write to files in it
-          chmod -R +w .nimbledeps
-
           # Create symlink to dependencies in the store
           ln -s ${deps}/pkgs2 nimbledeps/pkgs2
 
           # TODO: Add gcroot so paths don't get deleted
 
           # Make sure nimble.paths points to our deps
-          nimble setup --offline
+          nimble setup --useSystemNim --solver:legacy setup --offline
         '';
         buildPhase = ''
           runHook preBuild
