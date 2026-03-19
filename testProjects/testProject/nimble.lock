@@ -1,14 +1,38 @@
 {
   "version": 2,
   "packages": {
+    "nim": {
+      "version": "2.3.1",
+      "vcsRevision": "",
+      "url": "https://github.com/nim-lang/Nim.git",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      }
+    },
     "anano": {
       "version": "0.2.1",
       "vcsRevision": "2534c8fc60f463fd7f9573ce235c0c07f632af45",
       "url": "https://github.com/ire4ever1190/anano",
       "downloadMethod": "git",
-      "dependencies": [],
+      "dependencies": [
+        "nim"
+      ],
       "checksums": {
         "sha1": "bc5242cbfd4feb63779f33d6d433d0a65b7dca75"
+      }
+    },
+    "nort": {
+      "version": "0.3.0",
+      "vcsRevision": "f2882def9eb8e0d125ef82020d45921b98b44025",
+      "url": "https://github.com/ire4ever1190/nort",
+      "downloadMethod": "git",
+      "dependencies": [
+        "nim"
+      ],
+      "checksums": {
+        "sha1": "f527077055e1d6c56ad17480c64dac7ad7cdce0b"
       }
     }
   },

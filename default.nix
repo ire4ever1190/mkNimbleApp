@@ -27,7 +27,7 @@ let
         # Run setup to pull all the dependencies. The solver is set to legacy to get around a bug
         # where nimble tries to install Nim when there are no dependencies since it thinks there
         # are no locked dependencies
-        nimble --useSystemNim --solver:legacy --debug setup
+        nimble --useSystemNim --solver:legacy setup
 
         # Sometimes the files listed in each nimblemeta.json file is in a different order.
         # We'll sort that so the hash is consistent
@@ -102,12 +102,36 @@ in
         version = metadata.version;
         nativeBuildInputs = mergedNativeBuildInputs;
         shellHook = ''
-          ${setupNimbleDir}
-          # Allow us to delete the dev shell when finished
-          chmod +w -R $NIMBLE_DIR
+          NEED_SETUP=0
 
-          # Make sure nimble.paths points to our deps
-          nimble setup
+          # Check if nimbledeps needs to be set up
+          # Either we haven't linked the pacakges or the folder is missing
+          if [ ! -L nimbledeps/pkgs2 ]; then
+            NEED_SETUP=1
+          elif [ "$(readlink nimbledeps/pkgs2)" != "${deps}/pkgs2" ]; then
+            NEED_SETUP=1
+          fi
+
+          if [ "$NEED_SETUP" -eq 1 ]; then
+            # Create the local folder to make Nimble use local dependencies
+            mkdir -p nimbledeps
+
+            # Create empty files to stop nimble from trying to download them
+            echo "[]" > nimbledeps/packages_official.json
+            echo "[]" > nimbledeps/official-nim-releases.json
+
+            # Create symlink to dependencies in the store
+            ln -sf ${deps}/pkgs2 nimbledeps/pkgs2
+
+            # Generate nimble.paths from what's actually in the store
+            {
+              echo "--noNimblePath"
+              # Add each pkg as a path
+              find -L $(pwd)/nimbledeps/pkgs2/ -maxdepth 1 -type d | tail -n +2 | while read dir; do
+                echo "--path:\"$dir\""
+              done
+            } > nimble.paths
+          fi
         '';
         buildPhase = ''
           runHook preBuild

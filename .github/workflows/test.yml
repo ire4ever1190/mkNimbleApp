@@ -29,4 +29,7 @@ jobs:
 
       - name: Test a dev environment can be used
         working-directory: testProjects/testProject
-        run: nix develop -c nim r src/testProject.nim
+        run: |
+          nix develop -c nim r src/testProject.nim
+          # I don't recommend using nimble...
+          # nix develop -c nimble test
