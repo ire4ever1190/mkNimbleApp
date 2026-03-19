@@ -109,7 +109,7 @@ in
           # Create symlink to dependencies in the store
           ln -s ${deps}/pkgs2 nimbledeps/pkgs2
 
-          # TODO: Add gcroot so paths don't get deleted
+          # TODO: Add gcroot so paths don't get deleted?
 
           # Make sure nimble.paths points to our deps
           nimble setup --useSystemNim --solver:legacy setup --offline
