@@ -29,6 +29,9 @@ let
         # are no locked dependencies
         nimble --useSystemNim --solver:legacy setup
 
+        # Update the file so we have a variable we can easily replace later
+        sed -i "s^$(pwd)^PROJECT_PATH^g" nimble.paths
+
         # Sometimes the files listed in each nimblemeta.json file is in a different order.
         # We'll sort that so the hash is consistent
         for file in $(find -name nimblemeta.json); do
@@ -38,7 +41,9 @@ let
       '';
 
       installPhase = ''
-        cp -r nimbledeps $out
+        mkdir -p $out
+        cp -r nimbledeps $out/deps
+        cp nimble.paths $out/nimble.paths
       '';
 
       outputHashAlgo = "sha256";
@@ -88,7 +93,7 @@ in
       setupNimbleDir = ''
         # Copy into a temp directory we can write to. Nimble likes to update the nimbledata2.json file
         export NIMBLE_DIR=$(mktemp -d)
-        cp -r ${deps}/* $NIMBLE_DIR
+        cp -r ${deps}/deps/* $NIMBLE_DIR
         chmod +w $NIMBLE_DIR/nimbledata2.json
 
         # Create empty files to stop nimble from trying to download them
@@ -102,14 +107,25 @@ in
         version = metadata.version;
         nativeBuildInputs = mergedNativeBuildInputs;
         shellHook = ''
-          # Create the local folder to make Nimble use local dependencies
-          mkdir -p $(pwd)/nimbledeps
+          # Check if nimbledeps needs to be set up
+          NEED_SETUP=0
 
-          # Create symlink to dependencies in the store
-          ln -sf ${deps}/pkgs2 nimbledeps/pkgs2
+          if [ ! -L nimbledeps/pkgs2 ]; then
+            NEED_SETUP=1
+          elif [ "$(readlink nimbledeps/pkgs2)" != "${deps}/deps/pkgs2" ]; then
+            NEED_SETUP=1
+          fi
 
-          # Make sure nimble.paths points to our deps
-          nimble setup --useSystemNim --solver:legacy setup --offline
+          if [ "$NEED_SETUP" -eq 1 ]; then
+            # Create the local folder to make Nimble use local dependencies
+            mkdir -p nimbledeps
+
+            # Create symlink to dependencies in the store
+            ln -sf ${deps}/deps/pkgs2 nimbledeps/pkgs2
+
+            # Copy nimble.paths from deps and replace PROJECT_PATH with actual path
+            sed "s^PROJECT_PATH^$(pwd)^g" ${deps}/nimble.paths > nimble.paths
+          fi
         '';
         buildPhase = ''
           runHook preBuild
