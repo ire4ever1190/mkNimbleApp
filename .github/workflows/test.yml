@@ -31,4 +31,5 @@ jobs:
         working-directory: testProjects/testProject
         run: |
           nix develop -c nim r src/testProject.nim
-          nix develop -c nimble test
+          # I don't recommend using nimble...
+          # nix develop -c nimble test
