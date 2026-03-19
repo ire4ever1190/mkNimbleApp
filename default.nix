@@ -103,11 +103,10 @@ in
         nativeBuildInputs = mergedNativeBuildInputs;
         shellHook = ''
           # Create the local folder to make Nimble use local dependencies
-          rm -rf $(pwd)/nimbledeps
           mkdir -p $(pwd)/nimbledeps
 
           # Create symlink to dependencies in the store
-          ln -s ${deps}/pkgs2 nimbledeps/pkgs2
+          ln -sf ${deps}/pkgs2 nimbledeps/pkgs2
 
           # Make sure nimble.paths points to our deps
           nimble setup --useSystemNim --solver:legacy setup --offline
