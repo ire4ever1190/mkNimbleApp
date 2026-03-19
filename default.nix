@@ -108,7 +108,7 @@ in
           # Either we haven't linked the pacakges or the folder is missing
           if [ ! -L nimbledeps/pkgs2 ]; then
             NEED_SETUP=1
-          elif [ "$(readlink nimbledeps/pkgs2)" != "${deps}/deps/pkgs2" ]; then
+          elif [ "$(readlink nimbledeps/pkgs2)" != "${deps}/pkgs2" ]; then
             NEED_SETUP=1
           fi
 
