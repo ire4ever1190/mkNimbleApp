@@ -35,7 +35,14 @@ jobs:
           # nix develop -c nimble test
 
       - name: Test actual app
-        run: git clone https://github.com/ire4ever1190/nimsight
+        run: |
+          git clone https://github.com/ire4ever1190/nimsight
           cd nimsight
+          # Make it be part of current repo so it can access the flake
+          rm -rf .git
+          git add .
+
+          # Make it point to the current version of the flake
           sed -i 's@github:ire4ever1190/mkNimbleApp@path:../@' flake.nix
+
           nix build -L
