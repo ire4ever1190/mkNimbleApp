@@ -37,4 +37,5 @@ jobs:
       - name: Test actual app
         run: git clone https://github.com/ire4ever1190/nimsight
           cd nimsight
+          sed -i 's@github:ire4ever1190/mkNimbleApp@path:../@'
           nix build -L
