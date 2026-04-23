@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "packages": {
+    "nim": {
+      "version": "2.3.1",
+      "vcsRevision": "",
+      "url": "https://github.com/nim-lang/Nim.git",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      }
+    },
+    "sat": {
+      "version": "0.1.1",
+      "vcsRevision": "e63eaea8baf00bed8bcd5a29ffd8823abb265b39",
+      "url": "https://github.com/nim-lang/sat",
+      "downloadMethod": "git",
+      "dependencies": [
+        "nim"
+      ],
+      "checksums": {
+        "sha1": "bb10015e13931637f5055f188e532ef364574939"
+      }
+    }
+  },
+  "tasks": {}
+}

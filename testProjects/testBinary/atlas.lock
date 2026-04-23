@@ -1,0 +1,29 @@
+{
+  "items": {},
+  "nimcfg": [],
+  "nimbleFile": {
+    "filename": "testBinary.nimble",
+    "content": [
+      "# Package",
+      "",
+      "version       = \"0.1.0\"",
+      "author        = \"Jake Leahy\"",
+      "description   = \"Test when dependency contains a binary\"",
+      "license       = \"MIT\"",
+      "srcDir        = \"src\"",
+      "bin           = @[\"testBinary\"]",
+      "",
+      "",
+      "# Dependencies",
+      "",
+      "requires \"nim >= 2.2.8\"",
+      "requires \"nimsight\"",
+      ""
+    ]
+  },
+  "hostOS": "linux",
+  "hostCPU": "amd64",
+  "nimVersion": "2.2.4 f7145dd26efeeeb6eeae6fff649db244d81b212d",
+  "gccVersion": "15.2.1",
+  "clangVersion": "22.1.3"
+}

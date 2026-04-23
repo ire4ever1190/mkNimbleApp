@@ -20,7 +20,13 @@
         pkgs = nixpkgs.legacyPackages.${system};
       in
       {
-        packages.default = import ./default.nix { pkgs = pkgs; };
+        packages = {
+          default = {
+            mkNimbleApp = pkgs.callPackage nix/nimble.nix { };
+            buildAtlasApp = pkgs.callPackage nix/buildAtlasApp.nix { };
+          };
+          atlas = pkgs.callPackage nix/atlas.nix { };
+        };
         formatter = pkgs.nixfmt-rfc-style;
       }
     )
