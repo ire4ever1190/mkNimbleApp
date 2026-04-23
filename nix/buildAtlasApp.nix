@@ -34,6 +34,7 @@ let
         cp nim.cfg $out/nim.cfg
       '';
 
+      dontFixup = true;
       outputHashAlgo = "sha256";
       outputHashMode = "recursive";
       outputHash = hash;
