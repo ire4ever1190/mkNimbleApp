@@ -152,6 +152,10 @@ pkgs.stdenv.mkDerivation (
       runHook preInstall
 
       mkdir -p $out/bin/
+      if [ -n "${metadata.binDir}" ]; then
+          cd ${metadata.binDir}
+      fi
+
       # Find all the binary files listed
       for binary in ${builtins.concatStringsSep " " metadata.bin}; do
           mv $binary $out/bin/$binary
