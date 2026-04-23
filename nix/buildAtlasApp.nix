@@ -70,7 +70,9 @@ lib.extendMkDerivation {
         cp ${atlasDeps}/nim.cfg .
 
         mkdir bin
-
+        echo "Deps folder"
+        cat nim.cfg
+        ls deps
         # Find all the binary files listed
         for binary in ${builtins.concatStringsSep " " metadata.bin}; do
             nim c -o:bin/$binary -d:release ${metadata.srcDir}/$binary
