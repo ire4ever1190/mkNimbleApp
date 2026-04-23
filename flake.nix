@@ -20,7 +20,10 @@
         pkgs = nixpkgs.legacyPackages.${system};
       in
       {
-        packages.default = import ./default.nix { pkgs = pkgs; };
+        packages = {
+          default = import ./default.nix { pkgs = pkgs; };
+          atlas = pkgs.callPackage nix/atlas.nix { };
+        };
         formatter = pkgs.nixfmt-rfc-style;
       }
     )
