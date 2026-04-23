@@ -34,6 +34,8 @@ let
         mkdir $out
         cp -r deps $out/
         cp nim.cfg $out/nim.cfg
+        find $out/
+        cat $out/nim.cfg
       '';
 
       dontFixup = true;
@@ -70,6 +72,7 @@ lib.extendMkDerivation {
         export HOME=$(mktemp -d)
 
         cp -r ${atlasDeps}/deps/* deps/
+        ls -al deps
         cp ${atlasDeps}/nim.cfg .
 
         mkdir bin
