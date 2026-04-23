@@ -32,6 +32,8 @@ let
         mkdir $out
         cp -r deps $out/
         cp nim.cfg $out/nim.cfg
+        find $out
+        cat $out/nim.cfg
       '';
 
       dontFixup = true;
