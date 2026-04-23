@@ -21,7 +21,9 @@
       in
       {
         packages = {
-          default = import ./default.nix { pkgs = pkgs; };
+          default = {
+            mkNimbleApp = pkgs.callPackage nix/nimble.nix { };
+          };
           atlas = pkgs.callPackage nix/atlas.nix { };
         };
         formatter = pkgs.nixfmt-rfc-style;
