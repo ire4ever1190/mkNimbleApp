@@ -33,3 +33,8 @@ jobs:
           nix develop -c nim r src/testProject.nim
           # I don't recommend using nimble...
           # nix develop -c nimble test
+
+      - name: Test actual app
+        run: git clone https://github.com/ire4ever1190/nimsight
+          cd nimsight
+          nix build -L
