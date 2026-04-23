@@ -19,12 +19,12 @@
     flake-utils.lib.eachDefaultSystem (
       system:
       let
-        mkNimbleApp = nimbleUtils.packages.${system}.default.mkNimbleApp;
+        buildAtlasApp = nimbleUtils.packages.${system}.default.buildAtlasApp;
       in
       {
-        packages.default = mkNimbleApp {
+        packages.default = buildAtlasApp {
           src = ./.;
-          nimbleHash = "";
+          atlasHash = "sha256-MrOexUVWK9q3CQxQQyvJaiJ7vhMqQYSVFZI31LQJ1D4=";
         };
       }
     );
