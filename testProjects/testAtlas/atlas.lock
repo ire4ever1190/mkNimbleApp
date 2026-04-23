@@ -1,0 +1,77 @@
+{
+  "items": {
+    "scrolls.ire4ever1190.github.com": {
+      "dir": "$deps/scrolls",
+      "url": "https://github.com/ire4ever1190/scrolls",
+      "commit": "eed44d2f31dd123b73ff371601f3feb3544066f1",
+      "version": ""
+    },
+    "nort.ire4ever1190.github.com": {
+      "dir": "$deps/nort",
+      "url": "https://github.com/ire4ever1190/nort",
+      "commit": "668680a9670f26014df01cb0354e8047561a0c2b",
+      "version": ""
+    },
+    "parsetoml": {
+      "dir": "$deps/parsetoml",
+      "url": "https://github.com/NimParsers/parsetoml",
+      "commit": "d297f5a81be2472905d367aa675dcbbca6e7a5d2",
+      "version": ""
+    },
+    "casserole.ire4ever1190.github.com": {
+      "dir": "$deps/casserole",
+      "url": "https://github.com/ire4ever1190/casserole",
+      "commit": "ac2210ce7a46ba209d241b1976e6736960f7df06",
+      "version": ""
+    },
+    "libdump.ire4ever1190.github.com": {
+      "dir": "$deps/libdump",
+      "url": "https://github.com/ire4ever1190/libdump",
+      "commit": "7c03ae4377f5b1b62d53a934bc68c1d55c5400dc",
+      "version": ""
+    }
+  },
+  "nimcfg": [
+    "############# begin Atlas config section ##########",
+    "--noNimblePath",
+    "--path:\"deps/nimsight/src\"",
+    "--path:\"deps/scrolls/src\"",
+    "--path:\"deps/threading\"",
+    "--path:\"deps/nim-minilru/src\"",
+    "--path:\"deps/anano/src\"",
+    "--path:\"deps/jaysonrpc/src\"",
+    "--path:\"deps/nort/src\"",
+    "--path:\"deps/parsetoml/src\"",
+    "--path:\"deps/results\"",
+    "--path:\"deps/unittest2\"",
+    "--path:\"deps/casserole/src\"",
+    "--path:\"deps/libdump/src\"",
+    "############# end Atlas config section   ##########",
+    ""
+  ],
+  "nimbleFile": {
+    "filename": "testBinary.nimble",
+    "content": [
+      "# Package",
+      "",
+      "version       = \"0.1.0\"",
+      "author        = \"Jake Leahy\"",
+      "description   = \"Test when dependency contains a binary\"",
+      "license       = \"MIT\"",
+      "srcDir        = \"src\"",
+      "bin           = @[\"testBinary\"]",
+      "",
+      "",
+      "# Dependencies",
+      "",
+      "requires \"nim >= 2.2.8\"",
+      "requires \"https://github.com/ire4ever1190/scrolls\"",
+      ""
+    ]
+  },
+  "hostOS": "linux",
+  "hostCPU": "amd64",
+  "nimVersion": "2.2.8",
+  "gccVersion": "15.2.1",
+  "clangVersion": "22.1.3"
+}

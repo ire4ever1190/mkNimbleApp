@@ -11,4 +11,4 @@ bin           = @["testBinary"]
 # Dependencies
 
 requires "nim >= 2.2.8"
-requires "nimsight"
+requires "https://github.com/ire4ever1190/scrolls"
