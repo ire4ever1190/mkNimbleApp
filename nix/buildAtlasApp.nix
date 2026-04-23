@@ -83,5 +83,21 @@ lib.extendMkDerivation {
       installPhase = ''
         cp -r bin $out/
       '';
+
+      # Prefill what metadata we can
+      meta =
+        let
+          # See if we can find the license from the built in list
+          license = pkgs.lib.filterAttrs (
+            name: license: license ? spdxId && license.spdxId == metadata.license
+          ) pkgs.lib.licenses;
+        in
+        {
+          description = metadata.desc;
+          mainProgram = builtins.elemAt metadata.bin 0;
+        }
+        // pkgs.lib.attrsets.optionalAttrs (builtins.length (builtins.attrNames license) == 1) {
+          license = builtins.attrValues license; # Extra the license, we don't need the toplevel set
+        };
     };
 }
