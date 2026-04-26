@@ -7,10 +7,10 @@
 let
   mkNimbleApp = pkgs.callPackage ./nimble.nix { };
   githubSrc = fetchFromGitHub {
-    owner = "ire4ever1190";
+    owner = "nim-lang";
     repo = "atlas";
-    rev = "83cfc9ab7d75a9c0d628adfd064b4d1d3d421b8f";
-    hash = "sha256-gc/GM9GnMvhFRpOeMNrW+fHDts8FfCoF/J+sFgVKWGE=";
+    rev = "b4751e35ad8281d2b21776b9b55c45757982270e";
+    hash = "";
   };
 in
 mkNimbleApp {

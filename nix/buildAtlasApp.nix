@@ -24,8 +24,6 @@ let
       buildPhase = ''
         # https://github.com/daylinmorgan/nim2nix/blob/main/nix/build-atlas-package.nix#L53-L55
         atlas rep --verbosity:trace
-        # Run install to ensure the nim.cfg is filled out (Unsure if user is meant to commit it...)
-        #  atlas install --verbosity:trace
         rm -rf deps/_nimbles deps/_packages deps/atlas.config deps/atlas.cache.json
         find deps -name ".git" -type d -exec rm -rf {} +
       '';
