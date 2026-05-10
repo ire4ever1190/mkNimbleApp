@@ -9,8 +9,8 @@ let
   githubSrc = fetchFromGitHub {
     owner = "nim-lang";
     repo = "atlas";
-    rev = "b4751e35ad8281d2b21776b9b55c45757982270e";
-    hash = "sha256-3Fe6SVcnAd1ia6Zsvlgz/RMeuaokmCDyDKD52ZcnT2U=";
+    rev = "f30ab53af136e70d19c6dacd05d49f087f8dab88";
+    hash = "sha256-dAOtcjY1aYDbRRSYqOgwq8efEpdEwG9PTKcOc6l2MEI=";
   };
 in
 mkNimbleApp {
