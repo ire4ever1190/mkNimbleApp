@@ -10,7 +10,7 @@ let
     owner = "nim-lang";
     repo = "atlas";
     rev = "b4751e35ad8281d2b21776b9b55c45757982270e";
-    hash = "sha256-3Fe6SVcnAd1ia6Zsvlgz/RMeuaokmCDyDKD52ZcnT2U="
+    hash = "sha256-3Fe6SVcnAd1ia6Zsvlgz/RMeuaokmCDyDKD52ZcnT2U=";
   };
 in
 mkNimbleApp {
