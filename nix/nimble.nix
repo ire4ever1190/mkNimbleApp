@@ -80,10 +80,14 @@ let
   ];
 
   setupNimbleDir = ''
-    # Copy into a temp directory we can write to. Nimble likes to update the nimbledata2.json file
+    # Nimble likes to update the nimbledata2.json file, so we need a writable dir.
+    # Only nimbledata2.json actually needs to be writable though, so we symlink the
+    # bulk of the deps (pkgs2) from the store instead of copying the whole tree.
+    # Note: this makes pkgs2 read-only, so ad-hoc `nimble install` in the shell will
+    # fail — deps are meant to come from the flake, not manual installs.
     export NIMBLE_DIR=$(mktemp -d)
-    cp -r ${deps}/* $NIMBLE_DIR
-    chmod +w $NIMBLE_DIR/nimbledata2.json
+    ln -s ${deps}/pkgs2 $NIMBLE_DIR/pkgs2
+    cp ${deps}/nimbledata2.json $NIMBLE_DIR/nimbledata2.json
 
     # Create empty files to stop nimble from trying to download them
     echo "[]" > $NIMBLE_DIR/packages_official.json
@@ -97,36 +101,16 @@ pkgs.stdenv.mkDerivation (
     nativeBuildInputs = mergedNativeBuildInputs;
     src = src;
     shellHook = ''
-      NEED_SETUP=0
+      ${setupNimbleDir}
 
-      # Check if nimbledeps needs to be set up
-      # Either we haven't linked the pacakges or the folder is missing
-      if [ ! -L nimbledeps/pkgs2 ]; then
-        NEED_SETUP=1
-      elif [ "$(readlink nimbledeps/pkgs2)" != "${deps}/pkgs2" ]; then
-        NEED_SETUP=1
-      fi
-
-      if [ "$NEED_SETUP" -eq 1 ]; then
-        # Create the local folder to make Nimble use local dependencies
-        mkdir -p nimbledeps
-
-        # Create empty files to stop nimble from trying to download them
-        echo "[]" > nimbledeps/packages_official.json
-        echo "[]" > nimbledeps/official-nim-releases.json
-
-        # Create symlink to dependencies in the store
-        ln -sf ${deps}/pkgs2 nimbledeps/pkgs2
-
-        # Generate nimble.paths from what's actually in the store
-        {
-          echo "--noNimblePath"
-          # Add each pkg as a path
-          find -L $(pwd)/nimbledeps/pkgs2/ -maxdepth 1 -type d | tail -n +2 | while read dir; do
-            echo "--path:\"$dir\""
-          done
-        } > nimble.paths
-      fi
+      # Generate nimble.paths from what's actually in the store (editor/LSP support)
+      {
+        echo "--noNimblePath"
+        # Add each pkg as a path
+        find -L ${deps}/pkgs2/ -maxdepth 1 -type d | tail -n +2 | while read dir; do
+          echo "--path:\"$dir\""
+        done
+      } > nimble.paths
     '';
     buildPhase = ''
       runHook preBuild
