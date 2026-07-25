@@ -87,7 +87,9 @@ let
     # fail — deps are meant to come from the flake, not manual installs.
     export NIMBLE_DIR=$(mktemp -d)
     ln -s ${deps}/pkgs2 $NIMBLE_DIR/pkgs2
+    # Copy is read-only from the store; nimble writes to this file, so make it writable
     cp ${deps}/nimbledata2.json $NIMBLE_DIR/nimbledata2.json
+    chmod +w $NIMBLE_DIR/nimbledata2.json
 
     # Create empty files to stop nimble from trying to download them
     echo "[]" > $NIMBLE_DIR/packages_official.json
