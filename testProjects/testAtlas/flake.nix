@@ -24,7 +24,7 @@
       {
         packages.default = buildAtlasApp {
           src = ./.;
-          atlasHash = "sha256-9L9xBG9IpT0gllPo5RYxjEjJ+wkDZC4fJGYngyQquhg=";
+          atlasHash = "sha256-S04VO3V72xPZwlt7aM+z1av3Q5TreZmYqwBt+a11d44=";
         };
       }
     );
