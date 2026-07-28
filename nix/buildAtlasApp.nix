@@ -67,6 +67,7 @@ lib.extendMkDerivation {
       buildPhase = ''
         export HOME=$(mktemp -d)
 
+        mkdir -p deps
         cp -r ${atlasDeps}/deps/* deps/
         cp ${atlasDeps}/nim.cfg .
 
