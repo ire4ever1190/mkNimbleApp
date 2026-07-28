@@ -24,7 +24,7 @@ let
       buildPhase = ''
         # https://github.com/daylinmorgan/nim2nix/blob/main/nix/build-atlas-package.nix#L53-L55
         atlas rep --verbosity:trace
-        rm -rf deps/_nimbles deps/_packages deps/atlas.config deps/atlas.cache.json
+        rm -rf deps/_nimbles deps/_packages deps/atlas.config deps/atlas.cache.json deps/.cache
         find deps -name ".git" -type d -exec rm -rf {} +
       '';
 
@@ -67,6 +67,7 @@ lib.extendMkDerivation {
       buildPhase = ''
         export HOME=$(mktemp -d)
 
+        mkdir -p deps
         cp -r ${atlasDeps}/deps/* deps/
         cp ${atlasDeps}/nim.cfg .
 
