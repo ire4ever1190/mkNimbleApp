@@ -43,6 +43,12 @@ let
         cd nimbledeps
         rm -f official-nim-releases.json packages_temp.json packages_official.json
         cd ..
+
+        # The reverseDeps in the meta refences the current source path.
+        # This means that any change (including updating the flake) will update the hash.
+        # Couldn't replicate in tests, but noticed it manually.
+        # So anyways, we replace the current working directory with just a static `/project`
+        sed -i s@$(pwd)@/project@g nimbledeps/nimbledata2.json
       '';
 
       installPhase = ''
