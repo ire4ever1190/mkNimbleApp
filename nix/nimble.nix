@@ -41,7 +41,7 @@ let
 
         # Clear out other files that can change the hash
         cd nimbledeps
-        rm official-nim-releases.json packages_temp.json packages_official.json
+        rm -f official-nim-releases.json packages_temp.json packages_official.json
         cd ..
       '';
 
