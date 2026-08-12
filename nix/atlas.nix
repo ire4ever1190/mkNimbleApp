@@ -16,7 +16,7 @@ in
 mkNimbleApp {
   src = githubSrc;
   nimbleLock = ./nimble.lock;
-  nimbleHash = "sha256-c8dSGPDLbmkB61W2hTn4T/w4DR+IQ7UD6g8QBYn/7xQ=";
+  nimbleHash = "sha256-WDa1w5OD49POIM78gx7ExNVaM+umdAZECxokUTRTbcY=";
   nativeBuildInputs = [
     pkgs.openssl
   ];

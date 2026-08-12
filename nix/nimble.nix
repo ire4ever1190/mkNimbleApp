@@ -25,12 +25,12 @@ let
       ];
       impureEnvVars = [ "NIX_SSL_CERT_FILE" ];
       buildPhase = ''
+        # Nimble needs an actual home folder
+        export HOME=$(mktemp -d)
         mkdir -p nimbledeps
 
-        # Run setup to pull all the dependencies. The solver is set to legacy to get around a bug
-        # where nimble tries to install Nim when there are no dependencies since it thinks there
-        # are no locked dependencies
-        nimble --useSystemNim --solver:legacy setup
+        # Run setup to pull all the dependencies
+        nimble --useSystemNim setup
 
         # Sometimes the files listed in each nimblemeta.json file is in a different order.
         # We'll sort that so the hash is consistent
@@ -120,7 +120,7 @@ pkgs.stdenv.mkDerivation (
       ${setupNimbleDir}
       export NIMBLE_ARGS="--useSystemNim --nim:${pkgs.nim}/bin/nim --nimcache:$(mktemp -d)"
 
-      nimble $NIMBLE_ARGS --offline -d:release build
+      nimble $NIMBLE_ARGS -d:release build
 
       runHook postBuild
     '';
@@ -129,7 +129,7 @@ pkgs.stdenv.mkDerivation (
     checkPhase = ''
       runHook preCheck
 
-      nimble $NIMBLE_ARGS --offline test
+      nimble $NIMBLE_ARGS test
 
       runHook postCheck
     '';
