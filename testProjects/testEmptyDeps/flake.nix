@@ -6,7 +6,6 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nimbleUtils = {
       url = "path:../../";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
   outputs =
@@ -24,7 +23,7 @@
       {
         packages.default = mkNimbleApp {
           src = ./.;
-          nimbleHash = "sha256-qaoVDxcYDZJG99TwK4IR8TxBAMJKEVzSmJNyFQt52iI=";
+          nimbleHash = "sha256-45ee58wrBntGt9PGDc55Py1SWaEJ7oTmzNEkdcVCpVs=";
         };
       }
     );

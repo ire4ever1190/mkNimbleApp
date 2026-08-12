@@ -6,7 +6,6 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nimbleUtils = {
       url = "path:../../";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
   outputs =
