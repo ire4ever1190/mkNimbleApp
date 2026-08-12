@@ -38,6 +38,11 @@ let
           jq '.metaData.files |= sort' "$file" > "$file.tmp"
           mv "$file.tmp" "$file"
         done
+
+        # Clear out other files that can change the hash
+        cd nimbledeps
+        rm official-nim-releases.json packages_temp.json packages_official.json
+        cd ..
       '';
 
       installPhase = ''
