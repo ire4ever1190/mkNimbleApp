@@ -30,7 +30,8 @@ in
   mkNimbleApp {
     src = ./.;
   
-    # The first run WILL fail, just paste the given hash in after aftwards
+    # The first run WILL fail, just paste the given hash in after aftwards.
+    # This stores the hash of your dependencies
     nimbleHash = ""; 
   
     meta = {
