@@ -15,7 +15,7 @@ let
       name = "deps";
       src = src;
       nativeBuildInputs = with pkgs; [
-        nimble
+        (pkgs.callPackage ./pkgs/nimble.nix { })
         # Needed for downloading different packages
         git
         mercurial

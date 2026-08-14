@@ -6,7 +6,7 @@ builtins.fromJSON (
     pkgs.stdenv.mkDerivation {
       name = "metadata";
       nativeBuildInputs = with pkgs; [
-        (pkgs.callPackage ./pkgs/nimble.nix { })
+        nimble
         jq
       ];
       src = src;
