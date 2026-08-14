@@ -3,6 +3,7 @@
   pkgs,
 }:
 pkgs.nimble.overrideAttrs (old: {
+  impureEnvVars = [ "NIX_SSL_CERT_FILE" ];
   patchPhase = ''
     # Check if we need to update bearssl to include user certificates
     echo $NIX_SSL_CERT_FILE
