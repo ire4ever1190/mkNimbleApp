@@ -25,7 +25,8 @@
             mkNimbleApp = pkgs.callPackage nix/nimble.nix { };
             buildAtlasApp = pkgs.callPackage nix/buildAtlasApp.nix { };
           };
-          atlas = pkgs.callPackage nix/atlas.nix { };
+          atlas = pkgs.callPackage nix/pkgs/atlas.nix { };
+          nimble = pkgs.callPackage nix/pkgs/nimble.nix { };
         };
         formatter = pkgs.nixfmt-rfc-style;
       }
