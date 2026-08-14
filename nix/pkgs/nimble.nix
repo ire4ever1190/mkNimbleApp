@@ -18,17 +18,18 @@ mkNimbleApp rec {
   };
 
   patchPhase = ''
-    export NIX_SSL_CERT_FILE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-
-    pushd vendor/bearssl/bearssl/certs
-    # Rebuild the cacert.c file to use the users custom certs
-    echo '#include <brssl.h>' > cacert.c
-    ${pkgs.bearssl}/brssl ta $NIX_SSL_CERT_FILE | sed "s/static //" >> cacert.c
-    # Update nix binding to point to correct amount of certificates
-    taNum=$(grep "#define TAs_NUM" cacert.c | awk '{print $NF}')
-    sed "s/const MozillaTrustAnchorsCount\* =.*/const MozillaTrustAnchorsCount* = $taNum/" -i cacert.nim
-    cat cacert.nim
-    popd
+    # Check if we need to update bearssl to include user certificates
+    if [ -f $NIX_SSL_CERT_FILE ]; then
+        pushd vendor/bearssl/bearssl/certs
+        # Rebuild the cacert.c file to use the users custom certs
+        echo '#include <brssl.h>' > cacert.c
+        ${pkgs.bearssl}/brssl ta $NIX_SSL_CERT_FILE | sed "s/static //" >> cacert.c
+        # Update nix binding to point to correct amount of certificates
+        taNum=$(grep "#define TAs_NUM" cacert.c | awk '{print $NF}')
+        sed "s/const MozillaTrustAnchorsCount\* =.*/const MozillaTrustAnchorsCount* = $taNum/" -i cacert.nim
+        cat cacert.nim
+        popd
+    fi
   '';
 
   nimbleHash = "sha256-qaoVDxcYDZJG99TwK4IR8TxBAMJKEVzSmJNyFQt52iI=";
