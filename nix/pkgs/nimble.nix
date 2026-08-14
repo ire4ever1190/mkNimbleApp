@@ -5,6 +5,8 @@
 pkgs.nimble.overrideAttrs (old: {
   patchPhase = ''
     # Check if we need to update bearssl to include user certificates
+    echo $NIX_SSL_CERT_FILE
+    echo "Checking if patch"
     if [ -f $NIX_SSL_CERT_FILE ]; then
         pushd vendor/bearssl/bearssl/certs
         # Rebuild the cacert.c file to use the users custom certs
