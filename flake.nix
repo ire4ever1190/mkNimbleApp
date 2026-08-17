@@ -19,7 +19,7 @@
         pkgs = import nixpkgs {
           inherit system;
           overlays = [
-            (import ./overlay.nix)
+            self.overlays.default
           ];
         };
       in
@@ -33,6 +33,7 @@
       }
     )
     // {
+      overlays.default = import ./overlay.nix;
       templates = {
         basic = {
           path = ./templates/basic;
