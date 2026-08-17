@@ -25,7 +25,10 @@ nimbleUtils = {
 and then call it inside your flake
 ```nix
 let
-  mkNimbleApp = nimbleUtils.packages.${system}.default.mkNimbleApp;
+  mkNimbleApp = import nixpkgs {
+    inherit system;
+    overlays = [ nimbleUtils.overlays.default ];
+  };
 in
   mkNimbleApp {
     src = ./.;

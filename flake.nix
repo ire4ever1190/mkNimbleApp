@@ -13,24 +13,27 @@
       flake-utils,
       ...
     }@inputs:
-
     flake-utils.lib.eachDefaultSystem (
       system:
       let
-        pkgs = nixpkgs.legacyPackages.${system};
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [
+            self.overlays.default
+          ];
+        };
       in
       {
         packages = {
-          default = {
-            mkNimbleApp = pkgs.callPackage nix/nimble.nix { };
-            buildAtlasApp = pkgs.callPackage nix/buildAtlasApp.nix { };
-          };
-          atlas = pkgs.callPackage nix/atlas.nix { };
+          mkNimbleApp = pkgs.mkNimbleApp;
+          buildAtlasApp = pkgs.buildAtlasApp;
+          atlas = pkgs.atlas;
+          nimble = pkgs.nimble;
         };
-        formatter = pkgs.nixfmt-rfc-style;
       }
     )
     // {
+      overlays.default = import ./overlay.nix;
       templates = {
         basic = {
           path = ./templates/basic;
