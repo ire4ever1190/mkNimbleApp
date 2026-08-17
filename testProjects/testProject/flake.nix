@@ -13,6 +13,7 @@
     {
       flake-utils,
       nimbleUtils,
+      nixpkgs,
       ...
     }:
 
