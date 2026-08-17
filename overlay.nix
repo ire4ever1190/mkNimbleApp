@@ -1,6 +1,20 @@
 final: prev: {
-  mkNimbleApp = prev.callPackage nix/nimble.nix { };
+  mkNimbleApp = final.callPackage nix/nimble.nix { };
   buildAtlasApp = prev.callPackage nix/buildAtlasApp.nix { };
   atlas = prev.callPackage nix/pkgs/atlas.nix { };
-  nimble = prev.callPackage nix/pkgs/nimble.nix { };
+  nimble = prev.nimble.overrideAttrs (old: rec {
+    # Attribute of the certificate. Allows user to override it (e.g. for internal company certs)
+    cacert = final.cacert;
+
+    patchPhase = ''
+      pushd vendor/bearssl/bearssl/certs
+      # Rebuild the cacert.c file to use the users custom certs
+      echo '#include <brssl.h>' > cacert.c
+      ${final.bearssl}/brssl ta ${cacert}/etc/ssl/certs/ca-bundle.crt | sed "s/static //" >> cacert.c
+      # Update nix binding to point to correct amount of certificates
+      taNum=$(grep "#define TAs_NUM" cacert.c | awk '{print $NF}')
+      sed "s/const MozillaTrustAnchorsCount\* =.*/const MozillaTrustAnchorsCount* = $taNum/" -i cacert.nim
+      popd
+    '';
+  });
 }
