@@ -18,10 +18,13 @@
     flake-utils.lib.eachDefaultSystem (
       system:
       let
-        buildAtlasApp = nimbleUtils.packages.${system}.default.buildAtlasApp;
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [nimbleUtils.overlays.default];
+        };
       in
       {
-        packages.default = buildAtlasApp {
+        packages.default = pkgs.buildAtlasApp {
           src = ./.;
           atlasHash = "sha256-kHgi0P0GcfOE3MmhriYt3j4vZ7DccIGik6f92uEAvoM=";
         };
