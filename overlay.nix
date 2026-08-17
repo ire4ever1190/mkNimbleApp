@@ -4,7 +4,7 @@ final: prev: {
   atlas = prev.callPackage nix/pkgs/atlas.nix { };
   nimble = prev.nimble.overrideAttrs (finalAttrs: prevAttrs: {
     # Attribute of the certificate. Allows user to override it (e.g. for internal company certs)
-    cacert = final.cacert;
+    cacert = prevAttrs.cacert or final.cacert;
 
     patchPhase = ''
       pushd vendor/bearssl/bearssl/certs
