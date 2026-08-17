@@ -5,7 +5,6 @@
   fetchFromGitHub,
 }:
 let
-  mkNimbleApp = pkgs.callPackage ./nimble.nix { };
   githubSrc = fetchFromGitHub {
     owner = "ire4ever1190";
     repo = "atlas";
@@ -13,7 +12,7 @@ let
     hash = "sha256-L8DoKc5ngMZNGqVGySwmKzT7rxuCTPeq4Ho6Qb5ZDJY=";
   };
 in
-mkNimbleApp {
+pkgs.mkNimbleApp {
   src = githubSrc;
   nimbleLock = ./nimble.lock;
   nimbleHash = "sha256-VbLYrwjILBOt+cW8eqUdwSL6z6exaJWJ9wJXrToAhf4=";
