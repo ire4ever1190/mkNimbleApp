@@ -14,6 +14,7 @@ pkgs.nimble.overrideAttrs (final: prev: {
     # Update nix binding to point to correct amount of certificates
     taNum=$(grep "#define TAs_NUM" cacert.c | awk '{print $NF}')
     sed "s/const MozillaTrustAnchorsCount\* =.*/const MozillaTrustAnchorsCount* = $taNum/" -i cacert.nim
+    ca cacert.nim
     popd
   '';
 })
