@@ -41,7 +41,13 @@ let
 
         # Clear out other files that can change the hash
         cd nimbledeps
-        rm -f official-nim-releases.json packages_temp.json packages_official.json
+
+        # from nim2nix, binary files were getting included causing issues since they are different on each system
+        for link in bin/*; do
+            [ -e "$link" ] && rm -f "$(readlink -f "$link")"
+        done
+
+        rm -f bin official-nim-releases.json packages_temp.json packages_official.json
         cd ..
 
         # The reverseDeps in the meta refences the current source path.
