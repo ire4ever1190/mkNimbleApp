@@ -28,7 +28,7 @@
       {
         packages.default = pkgs.mkNimbleApp {
           src = ./.;
-          nimbleHash = "sha256-i5N+dBjw2ui+4r0ybVRtXyZ7YDWjF3kGobJyT2AJNCM=";
+          nimbleHash = "sha256-uFz7w43FN2kKC9HPi8IpxG0cIaiDJAh0A0enye6g0Cc=";
         };
       }
     );
