@@ -41,6 +41,13 @@ let
 
         # Clear out other files that can change the hash
         cd nimbledeps
+
+        # from nim2nix, binary files were getting included causing issues since they are different on each system
+        for link in bin/*; do
+            [ -e "$link" ] && rm -f "$(readlink -f "$link")"
+        done
+
+        rm -rf bin
         rm -f official-nim-releases.json packages_temp.json packages_official.json
         cd ..
 
@@ -58,6 +65,11 @@ let
       outputHashAlgo = "sha256";
       outputHashMode = "recursive";
       outputHash = hash;
+
+      # The fixup phase patches shebangs in the downloaded packages which makes
+      # the output reference store paths. Not allowed for a fixed-output
+      # derivation, and the deps are only used as sources so disable it
+      dontPatchShebangs = true;
     };
 in
 userArgs:
