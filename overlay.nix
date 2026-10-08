@@ -1,7 +1,7 @@
 final: prev: {
   mkNimbleApp = final.callPackage nix/nimble.nix { };
   buildAtlasApp = prev.callPackage nix/buildAtlasApp.nix { };
-  atlas = prev.callPackage nix/pkgs/atlas.nix { };
+  atlas = prev.nim-atlas;
   nimble = prev.nimble.overrideAttrs (finalAttrs: prevAttrs: {
     # Attribute of the certificate. Allows user to override it (e.g. for internal company certs)
     cacert = prevAttrs.cacert or final.cacert;
