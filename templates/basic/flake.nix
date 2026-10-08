@@ -13,16 +13,20 @@
     {
       flake-utils,
       nimbleUtils,
+      nixpkgs,
       ...
     }:
 
     flake-utils.lib.eachDefaultSystem (
       system:
       let
-        mkNimbleApp = nimbleUtils.packages.${system}.default.mkNimbleApp;
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ nimbleUtils.overlays.default ];
+        };
       in
       {
-        packages.default = mkNimbleApp {
+        packages.default = pkgs.mkNimbleApp {
           src = ./.;
           # Update this hash after first run
           nimbleHash = "";
