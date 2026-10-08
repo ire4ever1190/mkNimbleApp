@@ -176,6 +176,11 @@ pkgs.stdenv.mkDerivation (
       // pkgs.lib.attrsets.optionalAttrs (builtins.length (builtins.attrNames license) == 1) {
         license = builtins.attrValues license; # Extra the license, we don't need the toplevel set
       };
+
+    # Expose deps for debugging/inspection
+    passthru = {
+      inherit deps;
+    };
   }
   // userArgsWithoutNativeBuildInputs
 )
