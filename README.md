@@ -25,12 +25,12 @@ nimbleUtils = {
 and then call it inside your flake
 ```nix
 let
-  mkNimbleApp = import nixpkgs {
+  pkgs = import nixpkgs {
     inherit system;
     overlays = [ nimbleUtils.overlays.default ];
   };
 in
-  mkNimbleApp {
+  pkgs.mkNimbleApp {
     src = ./.;
   
     # The first run WILL fail, just paste the given hash in after aftwards.
