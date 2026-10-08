@@ -47,7 +47,8 @@ let
             [ -e "$link" ] && rm -f "$(readlink -f "$link")"
         done
 
-        rm -f bin official-nim-releases.json packages_temp.json packages_official.json
+        rm -rf bin
+        rm -f official-nim-releases.json packages_temp.json packages_official.json
         cd ..
 
         # The reverseDeps in the meta refences the current source path.
@@ -64,6 +65,11 @@ let
       outputHashAlgo = "sha256";
       outputHashMode = "recursive";
       outputHash = hash;
+
+      # The fixup phase patches shebangs in the downloaded packages which makes
+      # the output reference store paths. Not allowed for a fixed-output
+      # derivation, and the deps are only used as sources so disable it
+      dontPatchShebangs = true;
     };
 in
 userArgs:
