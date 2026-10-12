@@ -114,6 +114,7 @@ pkgs.stdenv.mkDerivation (
     nativeBuildInputs = mergedNativeBuildInputs;
     src = src;
     shellHook = ''
+      export HOME=$(mktemp -d)
       ${setupNimbleDir}
 
       # Generate nimble.paths from what's actually in the store (editor/LSP support)
