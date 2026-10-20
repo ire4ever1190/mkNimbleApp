@@ -1,6 +1,6 @@
 { pkgs, lib }:
 let
-  atlasPkg = pkgs.callPackage ./pkgs/atlas.nix { };
+  atlasPkg = pkgs.atlas;
   getNimbleMetadata = pkgs.callPackage ./metadata.nix { };
 
   getAtlasDeps =
