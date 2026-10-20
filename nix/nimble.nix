@@ -139,7 +139,7 @@ pkgs.stdenv.mkDerivation (
     '';
     buildPhase = ''
       runHook preBuild
-
+      export HOME=$(mktemp -d)
       ${setupNimbleDir}
       export NIMBLE_ARGS="--useSystemNim --nim:${pkgs.nim}/bin/nim --nimcache:$(mktemp -d)"
 
