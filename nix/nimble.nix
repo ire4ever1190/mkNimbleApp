@@ -16,6 +16,7 @@ let
       src = src;
       nativeBuildInputs = with pkgs; [
         nimble
+        nim
         # Needed for downloading different packages
         git
         mercurial

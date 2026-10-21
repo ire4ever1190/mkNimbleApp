@@ -7,6 +7,7 @@ builtins.fromJSON (
       name = "metadata";
       nativeBuildInputs = with pkgs; [
         nimble
+        nim
         jq
       ];
       src = src;
