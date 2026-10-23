@@ -1,16 +1,6 @@
 {
   "version": 2,
   "packages": {
-    "nim": {
-      "version": "2.3.1",
-      "vcsRevision": "",
-      "url": "https://github.com/nim-lang/Nim.git",
-      "downloadMethod": "git",
-      "dependencies": [],
-      "checksums": {
-        "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
-      }
-    },
     "anano": {
       "version": "0.2.1",
       "vcsRevision": "2534c8fc60f463fd7f9573ce235c0c07f632af45",
@@ -23,16 +13,42 @@
         "sha1": "bc5242cbfd4feb63779f33d6d433d0a65b7dca75"
       }
     },
-    "nort": {
-      "version": "0.3.0",
-      "vcsRevision": "f2882def9eb8e0d125ef82020d45921b98b44025",
-      "url": "https://github.com/ire4ever1190/nort",
+    "libdump": {
+      "version": "0.5.2",
+      "vcsRevision": "7c03ae4377f5b1b62d53a934bc68c1d55c5400dc",
+      "url": "https://github.com/ire4ever1190/libdump",
       "downloadMethod": "git",
       "dependencies": [
         "nim"
       ],
       "checksums": {
-        "sha1": "f527077055e1d6c56ad17480c64dac7ad7cdce0b"
+        "sha1": "939b77b76e5527de4bb10aa2df428f87a16a64d6"
+      }
+    },
+    "casserole": {
+      "version": "0.3.0",
+      "vcsRevision": "ac2210ce7a46ba209d241b1976e6736960f7df06",
+      "url": "https://github.com/ire4ever1190/casserole",
+      "downloadMethod": "git",
+      "dependencies": [
+        "nim",
+        "libdump"
+      ],
+      "checksums": {
+        "sha1": "d5062d6ee2da7a1d122753446114b610e140cdcc"
+      }
+    },
+    "nort": {
+      "version": "0.6.2",
+      "vcsRevision": "3d2799cebf856cc7c802f398d298599d69d534fc",
+      "url": "https://github.com/ire4ever1190/nort",
+      "downloadMethod": "git",
+      "dependencies": [
+        "nim",
+        "casserole"
+      ],
+      "checksums": {
+        "sha1": "0463393d458b5ca80438b0b670093533cd5c15bb"
       }
     }
   },
