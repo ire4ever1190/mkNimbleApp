@@ -8,11 +8,15 @@ builtins.fromJSON (
       nativeBuildInputs = with pkgs; [
         nimble
         jq
+        nim
       ];
       src = src;
       installPhase = ''
-        # We need to delete nimDir since it refers to a store path
-        nimble -l --noLockfile --useSystemNim --offline dump --json --silent | jq 'del(.nimDir)' > $out
+        # Macro can't be used to include the file dynamically, so replace it in the source
+        echo sed s/@NIMBLE_FILE/$(find -name *.nimble)/
+        sed s!@NIMBLE_FILE!$(find -name *.nimble)! ${./infoDumper.nim} > infoDumper.nim
+
+        nim r --nimcache:$(mktemp -d) infoDumper.nim > $out
       '';
     }
   )

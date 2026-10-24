@@ -22,13 +22,13 @@
       let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [nimbleUtils.overlays.default];
+          overlays = [ nimbleUtils.overlays.default ];
         };
       in
       {
         packages.default = pkgs.mkNimbleApp {
           src = ./.;
-          nimbleHash = "sha256-i5N+dBjw2ui+4r0ybVRtXyZ7YDWjF3kGobJyT2AJNCM=";
+          nimbleHash = "sha256-mTUiJkJjnyOwCn/G0G+Nx07v0g1pqR1bEavzmiE8cQY";
         };
       }
     );
