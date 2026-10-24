@@ -7,7 +7,11 @@ final: prev: {
       # Attribute of the certificate. Allows user to override it (e.g. for internal company certs)
       cacert = prevAttrs.cacert or final.cacert;
 
-      nimFlags = prevAttrs.nimFlags ++ [ "-d:debug" ];
+      nimFlags = prevAttrs.nimFlags ++ [
+        "-d:debug"
+        "-u:release"
+        "--stacktraces:on"
+      ];
 
       patchPhase = ''
         pushd vendor/bearssl/bearssl/certs
