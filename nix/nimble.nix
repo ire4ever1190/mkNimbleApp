@@ -87,7 +87,7 @@ let
     inherit src;
     hash = userArgs.nimbleHash;
   };
-  metadata = getNimbleMetadata { inherit src deps; };
+  metadata = getNimbleMetadata { inherit src; };
   defaultNativeBuildInputs = with pkgs; [
     nimble
     nim
