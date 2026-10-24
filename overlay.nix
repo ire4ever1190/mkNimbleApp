@@ -10,7 +10,7 @@ final: prev: {
       nimFlags = prevAttrs.nimFlags ++ [
         "-d:debug"
         "-u:release"
-        "--stacktraces:on"
+        "--stackTrace:on"
       ];
 
       patchPhase = ''
