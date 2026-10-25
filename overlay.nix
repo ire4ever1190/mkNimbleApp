@@ -1,4 +1,5 @@
 final: prev: {
+  bearssl = final.callPackage ./nix/pkgs/bearssl.nix { };
   mkNimbleApp = final.callPackage nix/nimble.nix { };
   buildAtlasApp = prev.callPackage nix/buildAtlasApp.nix { };
   atlas = prev.nim-atlas;
