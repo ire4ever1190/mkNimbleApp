@@ -4,6 +4,8 @@
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    # needed for bearssl
+    nixpkgs-old.url = "github:nixos/nixpkgs?ref=nixos-25.11";
   };
   # Flake outputs
   outputs =
@@ -11,6 +13,7 @@
       self,
       nixpkgs,
       flake-utils,
+      nixpkgs-old,
       ...
     }@inputs:
     flake-utils.lib.eachDefaultSystem (
@@ -19,6 +22,9 @@
         pkgs = import nixpkgs {
           inherit system;
           overlays = [
+            (final: prev: {
+              bearssl = nixpkgs-old.legacyPackages.${system}.bearssl;
+            })
             self.overlays.default
           ];
         };
