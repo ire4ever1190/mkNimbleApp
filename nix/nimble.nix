@@ -83,11 +83,11 @@ let
       ''
     else
       userArgs.src;
-  metadata = getNimbleMetadata { inherit src; };
   deps = getNimbleDeps {
     inherit src;
     hash = userArgs.nimbleHash;
   };
+  metadata = getNimbleMetadata { inherit src; };
   defaultNativeBuildInputs = with pkgs; [
     nimble
     nim
@@ -139,7 +139,7 @@ pkgs.stdenv.mkDerivation (
     '';
     buildPhase = ''
       runHook preBuild
-
+      export HOME=$(mktemp -d)
       ${setupNimbleDir}
       export NIMBLE_ARGS="--useSystemNim --nim:${pkgs.nim}/bin/nim --nimcache:$(mktemp -d)"
 
@@ -192,6 +192,7 @@ pkgs.stdenv.mkDerivation (
     # Expose deps for debugging/inspection
     passthru = {
       inherit deps;
+      metadata = pkgs.writeText "metadata.json" (builtins.toJSON metadata);
     };
   }
   // userArgsWithoutNativeBuildInputs
