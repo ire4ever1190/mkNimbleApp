@@ -3,7 +3,7 @@
 
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst";
     nimbleUtils = {
       url = "github:ire4ever1190/mkNimbleApp";
       inputs.nixpkgs.follows = "nixpkgs";
