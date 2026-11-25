@@ -80,7 +80,8 @@ lib.extendMkDerivation {
       '';
 
       installPhase = ''
-        cp -r bin $out/
+        mkdir -p $out/bin
+        cp bin/* $out/bin
       '';
 
       # Prefill what metadata we can
