@@ -18,7 +18,7 @@ jobs:
           for project in ./testProjects/*/; do
             echo "::group::Testing $project"
             pushd $project
-            nix build -L
+            nix run -L
             popd
             echo "::endgroup::"
           done
