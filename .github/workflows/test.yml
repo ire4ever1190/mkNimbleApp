@@ -18,14 +18,10 @@ jobs:
           for project in ./testProjects/*/; do
             echo "::group::Testing $project"
             pushd $project
-            nix build -L
+            nix run -L
             popd
             echo "::endgroup::"
           done
-
-      - name: Ensure binary can be ran
-        run: result/bin/testProject
-        working-directory: testProjects/testProject/
 
       - name: Test a dev environment can be used
         working-directory: testProjects/testProject
