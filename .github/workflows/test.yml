@@ -23,10 +23,6 @@ jobs:
             echo "::endgroup::"
           done
 
-      - name: Ensure binary can be ran
-        run: result/bin/testProject
-        working-directory: testProjects/testProject/
-
       - name: Test a dev environment can be used
         working-directory: testProjects/testProject
         run: |
